@@ -1,0 +1,6 @@
+# food_symphony
+Food Symphony is comprised of a MySQL relational database, a Flask controller with a helper script containing functions that act as a model for the database, and views based on the Jinja2 Python package templates with additional interactivity from Ajax and styling from a Bootstrap template.  
+
+Social networking websites and mobile applications are the most popular way our generation communicates now. The internet is filled with tens of millions of people who are looking forward to connecting with other people without the boundaries of distance and cost. Whether you are a food company trying to market your products or a food blogger trying to expand your website’s audience, publishing recipes on recipe sharing websites is one of the most convenient ways to reach a much larger audience.
+
+Food Symphony is a recipe-based social networking website that allows all registered users to share their recipes across the internet. The objective of our project is to develop a straightforward and easy to use social platform that allows food lovers across the world to publish food recipes and food pictures, search recipes for dinner ideas and interact with other people’s blog posts.
