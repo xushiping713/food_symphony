@@ -1,0 +1,115 @@
+<!--home.html
+CS304 Spring 2017
+Last edited: 05/12/2017
+-->
+
+{% extends "base.html" %}
+
+{% block headstuff %}
+<!-- Custom CSS -->
+<link href="{{ url_for('static',filename ='blog-home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<p style="margin-left:2px;" id="flash_msg"></p>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+
+                <h1 class="page-header">
+                    {{ title }}
+                </h1>
+
+
+<!--<h1 class="pageTitle">{{ title }}</h1>-->
+
+    {% for post in posts %}
+            	<div class="homeContent" id= "{{ post.blogID }}" method="POST" action="/likeAPost/"> 
+                    <h2 style="display: inline-block; margin:0;">
+                        <a href="/uploads/{{post.blogID}}">{{ post.title }}</a>
+                    </h2>
+                    <input style="float:right;" class="btn btn-default" type="button" name="like" value="LIKE POST">
+                    <br>
+                    <p class="lead">
+                        by <a href="{{ url_for('userHome', userID = post.nm )}}">{{ post.author }}</a>
+                    </p>
+                    <p><span class="glyphicon glyphicon-time"></span>Posted on {{ post.datePosted }}</p>
+                    <span>Likes: </span><span class="likes">{{ post.numoflikes }}</span>
+                    <span>Comments: </span><span class="comments">{{ post.numComments }}</span><p></p>
+                    
+
+        			<p>Cost: ${{ post.price }}
+        			<br>Time: {{ post.time }} min
+        			</p>
+                	{% for tag in post.post_files %}
+                		 {{ tag|safe }}  
+                		 <br>                   
+                	{% endfor %}
+            	</div>
+
+                <hr>
+    {% endfor %}
+            </div>
+
+            <!-- Blog Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+                <!-- Blog Search Well -->
+                <div class="well">
+                    <div class="form-group">
+                        <form method=POST action="/">
+                            <h4><label for="sortby">Sort by</label></h4>
+                            <select id="sortby" class="form-control" name="sortby">
+                                <option value="">Default</option>
+                                <option value="date">Date Posted</option>
+                                <option value="numlikes">Number of Likes</option>
+                            </select>
+                            <input class="btn btn-default" type="submit" name="submit" value="submit">
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}
+
+{% block script %}
+<script type=text/javascript>
+$(function() {
+    $('[name=like]').on('click', function(event) {
+        var blogID;
+        blogID = $(event.target).closest('.homeContent').attr('id');
+        $.ajax({
+            url: "{{ url_for('like_post') }}",
+            data: { 'blogID': blogID },
+            type: 'POST',
+            success: function(data) {
+                var dict = JSON.parse(data);
+                // msg displayed on the top of the page if user is not logged in or already liked the post before
+                $('#flash_msg').text(dict['text']);
+                $('#'+ blogID.toString() + ' .likes').text(dict['likes']);
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
+    });
+});
+
+</script>
+{% endblock %}
+
+

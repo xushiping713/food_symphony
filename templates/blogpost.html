@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block headstuff %}
+<!-- Custom CSS -->
+<link href="{{ url_for('static',filename ='blog-post.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+
+            	<!-- Blog Post -->
+
+                <!-- Title -->
+                <h1>{{blogtitle.title}}</h1>
+
+                <!-- Author -->
+                <p class="lead">
+                    by {{blogtitle.name}}
+                </p>
+
+                <hr>
+
+                <p>Likes: {{ post.numoflikes }}</p>
+   				<p>Cost: ${{ post.price }}</p>          
+   				<p>Time: {{ post.time }}min</p>
+
+                <hr>
+
+				<div class = 'files'>
+				{% for tag in post_files %}
+					 <br>
+					 {{ tag|safe }}  
+					 <br>                   
+				{% endfor %}
+				</div>
+
+				<!-- Blog Comments -->
+
+				{% if displayButtons  == "true" %}
+				<form method=POST action="">
+					<input class="btn btn-default" type="submit" name="submit" value="delete">
+					<input class="btn btn-default" type="submit" name="submit" value="update">
+				</form>
+				{% endif %}
+
+				<hr>
+
+				<div class="well">
+					{% if comment == "true" %}
+					<form role="form" method=POST action="/commentAPost/" id="commentForm">
+						<div class="form-group">
+						  <textarea class="form-control" rows="4" cols="50" id="{{ blogID }}" form="commentForm" placeholder="Enter comment here..."></textarea>
+						</div>
+					  	<input class="btn btn-primary" type="button" name="submitComment" value="submit">
+					</form>
+					{% else %}
+					<h4>Please <a href="/login/">login</a> if you want to comment</h4>
+					{% endif %}
+				</div>
+
+				<!-- Posted Comments -->
+
+				<div class = "comments">
+				{% for comment in comment_section %}
+					<div class="comment media" data-postID ="{{ comment.blogID }}" data-commentID = "{{ comment.commentID }}" id="{{ comment.commentID }}">
+						<div class="media-body">
+							<h4 class="media-heading" data-username="username">{{ comment.username }}
+								<small data-date-posted="dateposted">{{ comment.datePosted }}</small>
+							</h4>
+
+							<span data-likes="likes">({{ comment.numoflikes }})</span>
+							<input class="btn btn-default" type="button" name="like" value="LIKE">
+							{% if comment.userID == session_nm %}
+							<input class="btn btn-default" type="button" name="delete" value="DELETE">
+							{% endif %}
+							<p data-comment-content = "content">{{ comment.commentContent }}</p>
+						</div>
+					</div>
+					<hr>
+				{% endfor %}
+				</div>
+
+
+				<div style="display:none;" class="template" id="commentTemplate">
+					<div class="comment media" data-commentID = "commentID" id="commentID" method="POST" action="/likeAComment/">
+						<div class="media-body">
+							<h4 class="media-heading" data-username="username">username
+								<small data-date-posted="dateposted"></small>
+							</h4>
+							<span data-likes="likes">(likes)</span>
+							<input class="btn btn-default" type="button" name="like" value="LIKE">
+							<input class="btn btn-default" type="button" name="delete" value="DELETE">
+							<p data-comment-content = "content">commentContent</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block script %}
+<script type=text/javascript>
+$(function () {  
+	// when user submits a comment
+	$("[name=submitComment]").on('click', function(event) { // using event bubbling
+		var blogID = $('textarea').attr('id');
+		var commentContent = $('textarea').val();
+		var test = true;
+		$.ajax({
+			url: "{{ url_for('comment') }}",
+			data: {"blogID":blogID, "commentContent": commentContent},
+			type: 'POST',
+			success: function(data) {
+				var dict = JSON.parse(data);
+				console.log(dict);
+				var elt = $('#commentTemplate >.comment').clone();
+				elt.attr('data-commentID', dict['commentID']); // updates the commentID from template
+				elt.attr('id', dict['commentID']); // update id from template
+				elt.find('[data-likes=likes]').text('('+dict['numoflikes']+')'); // updates number of likes
+				var new_datePosted = dict['datePosted'].replace(/T/i, ' '); // updates date posted
+				elt.find('[data-date-posted=dateposted]').text(new_datePosted);
+				elt.find('[data-comment-content=content]').text(dict['commentContent']); // updates comment content
+				elt.find('[data-username=username]').text(dict['username']); // updates username
+                $(".comments").prepend(elt); // append new comment to the comments section
+                $("#{{ blogID }}").val(''); 
+            },
+            error: function(req, status, err) { // error handling
+            	console.log('something went wrong', status, err)
+            }
+		});
+	});
+
+	// when a user likes a comment
+	$('.comments').on('click', '[name=like]', function(event) {
+        var commentID;
+        commentID = $(event.target).closest('.comment').attr('data-commentID');
+        $.ajax({
+            url: "{{ url_for('like_comment') }}",
+            data: { 'commentID': commentID },
+            type: 'POST',
+            success: function(data) {
+                $('#'+ commentID.toString() + ' [data-likes=likes]').text('('+ data +')'); // updates the number of likes
+            },
+            error: function(error) {
+                alert(error);
+            }
+        });
+    });
+
+	// when a user deletes a comments
+    $('.comments').on('click', '[name=delete]', function(event) {
+    	var commentID;
+        commentID = $(event.target).closest('.comment').attr('data-commentID');
+    	$.ajax({
+    		url: "{{ url_for('delete_comment') }}",
+    		data: { 'commentID': commentID },
+    		type: 'POST',
+    		success: function(data) {
+    			$('#'+ commentID.toString()).remove(); // remove the comment with given commentID from comments section
+    		},
+    		error: function(error) {
+                alert(error);
+            }
+    	});
+    });
+});
+</script>
+{% endblock %} 
+

@@ -1,0 +1,50 @@
+<!--signup.html
+CS304 Spring 2017
+Last edited: 4/19/2017
+-->
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div style="margin-top:4em;" class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+
+                <h1 class="page-header">
+                    {{ title }}
+                </h1>
+
+				<form method = POST action="" enctype=multipart/form-data>
+					<table>
+						<tr>
+						  <td><h4><label for="name">Name: </label></h4></td>
+						  <td><input type=text name="name"></td>
+						</tr>
+						<tr>
+					  	  <td><h4><label for="username">Username: </label></h4></td>
+					    	  <td><input type=text name="username"></td>
+						</tr>
+						<tr>
+						  <td><h4><label for="password">Password: </label></h4></td>
+						  <td><input type="password" name="password"></td>
+						</tr>
+						<tr>
+						  <td><h4><label for="intro">Short Introduction: </label></h4></td>
+						  <td><textarea name="intro" rows="4" cols="50"></textarea></td>
+						</tr>
+						<tr>
+						  <td><input class="btn btn-primary" type=submit value="Submit"></td>
+						</tr>
+				    </table>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

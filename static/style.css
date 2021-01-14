@@ -1,0 +1,119 @@
+/*
+style.css
+CS304 Spring 2017
+Last edited: 05/04/2017
+*/
+
+
+body {
+    font-family: "Tahoma", Geneva, sans-serif;
+}
+
+h1 {
+    margin: 10px;
+    font-weight: normal;
+}
+
+.pageTitle {
+    text-align: center;
+}
+
+.followButton_wrapper {
+    position:relative;
+    text-align: center;
+}
+
+.followButton {
+    position: absolute;
+    bottom:59%;
+    left:67%;
+}
+
+.content-wrapper {
+    height:100%;
+    width:1000px;
+    margin-top:1em;
+}
+
+.content {
+    display: flex;
+    flex-wrap:wrap;
+    margin:-10px 0 0 -10px;
+}
+
+.homeContent {
+    display: inline-block;
+    margin:10px 1px 0 10px;
+    flex-grow: 1;  
+    max-width: calc(100% * (1/2) - 20px - 1px);
+    overflow-y: auto;
+    background-color:#b3d9ff;
+    border: 1px solid;
+    border-radius: 25px;
+    max-height: 500px;
+}
+
+.container {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navLi {
+    float: left;
+    margin: 0px;
+    border-right: 1px solid #bbb;
+}
+
+li:last-child {
+    border-right: none;
+}
+
+.navLi  a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navLi a:hover {
+    background-color: #111;
+}
+
+pre {
+    white-space: -moz-pre-wrap; /*Mozilla, supported since 1999 */
+    white-space: -pre-wrap; /* Opera */
+    white-space: -o-pre-wrap; /* Opera */
+    white-space: pre-wrap; /* CSS3 */
+    word-wrap: break-word; /* IE 5.5+ */
+}
+
+.template {
+    display: none;
+}
+
+.form-group {
+    float: left;
+    margin-right: 1em;
+}
+
+#searchWrapper {
+    margin: 0 auto;
+    width: 800px;
+}
+
+.search {
+    text-align: center;
+}
+
+form {
+    //width: 450px;
+    //margin: 0 auto;
+}
+
+
+#updateFiles  {
+    width: 20%;
+}

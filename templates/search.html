@@ -1,0 +1,40 @@
+<!--search.html
+CS304 Spring 2017
+Last edited: 05/12/2017
+-->
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<!-- Page Content -->
+    <div class="container">
+
+        <div style="margin-top:4em;" class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+
+                <h1 class="page-header">
+                    {{ title }}
+                    <small>You can search by title, time, price, and username</small>
+                </h1>
+
+                <form method=POST action="">
+                  <h4><label for ="search-query">Query:</label></h4>
+                  <input type = "text" name = "search-query">
+                  
+                  <h4><label for ="Tag">Tag:</label></h4>
+                  <select name="type">
+                    <option value="default">Title</option>
+                    <option value="time">Time (minutes)</option>
+                    <option value="price">Price</option>
+                    <option value="name">Username</option>
+                  </select>
+                  <input style="marginleft:1em;" class="btn btn-primary" type= "submit" value = "Submit">
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

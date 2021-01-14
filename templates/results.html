@@ -1,0 +1,40 @@
+<!--search.html
+CS304 Spring 2017
+Last edited: 05/12/2017
+-->
+{% extends "home.html" %}
+
+
+{% block headstuff %}
+<!-- Custom CSS -->
+<link href="{{ url_for('static',filename ='blog-home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+ <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+
+                <h1 class="page-header">
+                    {{ title }}
+                </h1>
+
+
+				{% for post in posts %}
+				     <div id="{{post.blogID}}">
+						 <h2>
+						 	<a href="/uploads/{{post.blogID}}"> {{ post.title }} </a>
+						 </h2>
+					 </div>
+				{% endfor %}
+				
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

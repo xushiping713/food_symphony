@@ -1,0 +1,36 @@
+<!--login.html
+CS304 Spring 2017
+Last edited: 4/29/2017
+-->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div style="margin-top:4em;" class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+
+                <h1 class="page-header">
+                    {{ title }}
+                </h1>
+
+			    <form action="" method="post">
+			        <br><h4><label for="username">Username: </label></h4>
+			        <input type="text" name="username">
+			        <br>
+			        <br><h4><label for="password">Password: </label></h4>
+			        <input type="password" name="password">
+			        <br>
+			        <br><input class="btn btn-primary" type=submit value=Login>
+			    </form>
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

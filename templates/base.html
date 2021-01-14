@@ -1,0 +1,85 @@
+<!--base.html
+CS304 Spring 2017
+Last edited: 5/12/2017
+-->
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Shiping Xu and Michelle Gao">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>{{title}}</title>
+    <!-- Bootstrap Core CSS -->
+    <link  rel="stylesheet" href="{{ url_for('static',filename ='bootstrap.css') }} ">
+    {% block headstuff %}
+    {% endblock %}
+</head>
+
+<body>
+    {% block nav %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Home Page</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ url_for('search') }}">Search</a>
+                    </li>
+                    {% if display == "false" %}
+                    <li>
+                        <a href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('signup') }}">Join</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{ url_for('upload') }}">Upload</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a href="{{ url_for('userHome_check')}}">Hello, {{ username }}</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    {% endblock %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div id="messages" style="position:absolute;top:4em;">
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+{% block content %}       
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+</body>
+</html>
